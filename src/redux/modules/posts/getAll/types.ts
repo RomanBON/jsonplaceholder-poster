@@ -1,0 +1,4 @@
+export const POSTS_GET__INIT = "POSTS_GET__INIT";
+export const POSTS_GET__REQUEST = "POSTS_GET__REQUEST";
+export const POSTS_GET__SUCCESS = "POSTS_GET__SUCCESS";
+export const POSTS_GET__FAIL = "POSTS_GET__FAIL";
