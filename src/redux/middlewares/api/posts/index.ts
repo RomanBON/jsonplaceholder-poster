@@ -10,12 +10,12 @@ import deletePostMiddleware from "./delete";
 let paramsPerPage = {};
 
 export default (store: MiddlewareAPI, next: Dispatch, action: AnyAction) => {
+    const { getState } = store;
+    const state = getState();
+
     if (action.type === posts.get.types.POSTS_GET__REQUEST) {
         paramsPerPage = action.payload;
     }
-
-    const { getState } = store;
-    const state = getState();
 
     const isPostsListEmpty = posts.getAll.selectors.isPostsListEmpty(state);
 

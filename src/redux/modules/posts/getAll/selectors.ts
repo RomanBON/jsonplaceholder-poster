@@ -12,7 +12,9 @@ export const isPending = createSelector(
         state.type === POSTS_GET_ALL__INIT || state.type === POSTS_GET_ALL__REQUEST
 );
 
-export const allPosts = createSelector(state, (state) => state.payload);
+export const allPosts = createSelector(state, (state) => state.payload as PostType[]);
+
+export const allPostsLength = createSelector(allPosts, (state) => state.length);
 
 export const isPostsListEmpty = createSelector(state, (state) => {
     const posts = state.payload as PostType[];

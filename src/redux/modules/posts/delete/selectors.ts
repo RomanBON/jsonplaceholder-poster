@@ -1,16 +1,12 @@
 import { createSelector } from "reselect";
 
+import { RootState } from "~/redux/store";
+
 import { POST_DELETE__REQUEST } from "./types";
 
-// export const state = (state: IReduxState) => state.wall.wallDelete;
-//
-// export const isPending = createSelector(
-//   state,
-//   (state: IState<IData<ISuccessResponse>>) => state.type === POST_DELETE__REQUEST
-// );
-//
-// export const type =
-//     createSelector(state, (state: IState<IData<ISuccessResponse>>) => state.type);
-//
-// export const error =
-//     createSelector(state, (state: IState<IData<ISuccessResponse>>) => state.error);
+export const state = (state: RootState) => state.posts.get;
+
+export const isPending = createSelector(
+    state,
+    (state) => state.type === POST_DELETE__REQUEST
+);
