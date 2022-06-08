@@ -1,21 +1,25 @@
 import { AnyAction, Dispatch, MiddlewareAPI } from "redux";
 
 import { Posts } from "~/api";
-import { generic } from "~/redux/modules";
+import { posts } from "~/redux/modules";
 
-export default ({ dispatch }: MiddlewareAPI, next: Dispatch, action: AnyAction) => {
+export default ({ getState, dispatch }: MiddlewareAPI, next: Dispatch, action: AnyAction) => {
     next(action);
 
-    const { asyncActions, payload } = action;
-    const [SUCCESS, FAIL] = asyncActions;
+    const { payload } = action;
+    const { userId, title } = payload as PostAddType;
 
-    const payloadData = payload as PostAddType;
-
-    return Posts.add(payloadData)
+    return Posts.add({ userId, title })
         .then(({ data }) => {
-            dispatch(generic.actions.onSuccess({ type: SUCCESS, payload: data }));
+            dispatch(posts.add.slice.actions.success(data));
+
+            const state = getState();
+            const allPosts = posts.getAll.slice.getPostsAll(state) as PostType[];
+            const newAllPosts = [data].concat(allPosts);
+
+            dispatch(posts.getAll.slice.actions.success(newAllPosts));
         })
         .catch((error) => {
-            throw dispatch(generic.actions.onFail({ type: FAIL, error: error.toString() }));
+            dispatch(posts.add.slice.actions.fail(error));
         });
 };

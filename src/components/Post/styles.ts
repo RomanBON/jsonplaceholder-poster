@@ -4,9 +4,14 @@ import { StyledButton } from "~/components/ui";
 
 export const StyledPost = styled.div`
     display: flex;
+    justify-content: space-between;
     width: 100%;
     background-color: #c4c4c4;
     border: #000000;
+`;
+
+export const StyledPostContent = styled.div`
+    display: flex;
 `;
 
 export const StyledPostNumber = styled.div`
@@ -18,5 +23,5 @@ export const StyledPostTitle = styled.div`
 `;
 
 export const StyledPostButton = styled(StyledButton)`
-    width: 100px;
+    background-color: #ee4d4e;
 `;

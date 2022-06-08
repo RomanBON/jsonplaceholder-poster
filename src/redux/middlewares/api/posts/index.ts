@@ -13,25 +13,25 @@ export default (store: MiddlewareAPI, next: Dispatch, action: AnyAction) => {
     const { getState } = store;
     const state = getState();
 
-    if (action.type === posts.get.types.POSTS_GET__REQUEST) {
+    if (action.type === posts.get.slice.actions.request.type) {
         paramsPerPage = action.payload;
     }
 
-    const isPostsListEmpty = posts.getAll.selectors.isPostsListEmpty(state);
+    const allPostsLength = posts.getAll.slice.allPostsLength(state);
 
     switch (action.type) {
-        case posts.get.types.POSTS_GET__REQUEST: {
-            if (isPostsListEmpty) {
+        case posts.get.slice.actions.request.type: {
+            if (allPostsLength === 0) {
                 return getAllPostsMiddleware(store, next, action);
             } else {
                 return getPostsMiddleware(store, next, { ...action, ...{ paramsPerPage } });
             }
         }
-        case posts.getAll.types.POSTS_GET_ALL__SUCCESS:
+        case posts.getAll.slice.actions.success.type:
             return getPostsMiddleware(store, next, { ...action, ...{ paramsPerPage } });
-        case posts.add.types.POST_ADD__REQUEST:
+        case posts.add.slice.actions.request.type:
             return addPostMiddleware(store, next, action);
-        case posts.deleteById.types.POST_DELETE__REQUEST:
+        case posts.deleteById.slice.actions.request.type:
             return deletePostMiddleware(store, next, action);
         default: {
             next(action);

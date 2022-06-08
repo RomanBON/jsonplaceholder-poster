@@ -1,2 +1,2 @@
-export * from "./Post";
+export * from "./Main";
 export * from "./styles";

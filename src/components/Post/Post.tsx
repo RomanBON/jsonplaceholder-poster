@@ -1,28 +1,40 @@
-import React, { FC } from "react";
+import React, { FC, useCallback } from "react";
+
+import { useAppDispatch, useAppSelector } from "~/redux/hooks";
+import { posts } from "~/redux/modules";
 
 import {
     StyledPost,
+    StyledPostContent,
     StyledPostNumber,
     StyledPostTitle,
     StyledPostButton,
 } from "./styles";
 
-export type PostProps = {
-    onDelete: ({ id }: Pick<PostType, "id">) => void;
-} & PostType;
+export type PostProps = PostType;
 
-const Post: FC<PostProps> = ({ id, title, onDelete }) => {
-    const handleClick = () => {
-        onDelete({ id });
-    };
+export const Post: FC<PostProps> = ({ id, title }) => {
+    const dispatch = useAppDispatch();
+
+    const handleClick = useCallback(() => {
+        dispatch(posts.deleteById.slice.actions.request({ id }));
+    }, [id]);
+
+    const isPending = useAppSelector(state => posts.deleteById.slice.isPending(state));
 
     return (
         <StyledPost>
-            <StyledPostNumber>{id}</StyledPostNumber>
-            <StyledPostTitle>{title}</StyledPostTitle>
-            <StyledPostButton onClick={handleClick}>Delete</StyledPostButton>
+            <StyledPostContent>
+                <StyledPostNumber>{id}</StyledPostNumber>
+                <StyledPostTitle>{title}</StyledPostTitle>
+            </StyledPostContent>
+
+            <StyledPostButton
+                onClick={handleClick}
+                disabled={isPending}
+            >
+                Delete
+            </StyledPostButton>
         </StyledPost>
     );
 };
-
-export default Post;

@@ -1,6 +1,6 @@
 import { AnyAction, Dispatch, MiddlewareAPI } from "redux";
 
-import { generic, posts } from "~/redux/modules";
+import { posts } from "~/redux/modules";
 
 export default ({ getState, dispatch }: MiddlewareAPI, next: Dispatch, action: AnyAction) => {
     next(action);
@@ -9,18 +9,12 @@ export default ({ getState, dispatch }: MiddlewareAPI, next: Dispatch, action: A
 
     const { number, limit } = paramsPerPage as PageType;
     const state = getState();
-    const allPosts = posts.getAll.selectors.allPosts(state) as PostType[];
+    const allPosts = posts.getAll.slice.getPostsAll(state) as PostType[];
     const postsByPage = allPosts.slice((number - 1) * limit, number * limit);
 
     if (allPosts.length !== 0) {
-        dispatch(generic.actions.onSuccess({
-            type: posts.get.types.POSTS_GET__SUCCESS,
-            payload: postsByPage,
-        }));
+        dispatch(posts.get.slice.actions.success(postsByPage));
     } else {
-        dispatch(generic.actions.onFail({
-            type: posts.get.types.POSTS_GET__FAIL,
-            error: "Posts list is empty",
-        }));
+        throw dispatch(posts.get.slice.actions.fail("Posts list is empty"));
     }
 };

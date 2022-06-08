@@ -1,6 +1,4 @@
-import reducer from "./reducer";
-import * as types from "./types";
-import * as selectors from "./selectors";
-import * as actions from "./actions";
+import * as slice from "./slice";
+import reducer from "./slice";
 
-export { reducer, types, selectors, actions };
+export { slice, reducer };

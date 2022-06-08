@@ -5,10 +5,9 @@ declare global {
         id: number;
         userId: number;
         title: string;
-        body: string;
     }
 
-    type PostAddType = Pick<PostType, "userId" | "title" | "body">;
+    type PostAddType = Pick<PostType, "userId" | "title">;
 
     type PostDeleteType = Pick<PostType, "id">;
 }

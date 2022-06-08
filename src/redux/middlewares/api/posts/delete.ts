@@ -1,21 +1,25 @@
 import { AnyAction, Dispatch, MiddlewareAPI } from "redux";
 
 import { Posts } from "~/api";
-import { generic } from "~/redux/modules";
+import { posts } from "~/redux/modules";
 
-export default ({ dispatch }: MiddlewareAPI, next: Dispatch, action: AnyAction) => {
+export default ({ getState, dispatch }: MiddlewareAPI, next: Dispatch, action: AnyAction) => {
     next(action);
 
-    const { asyncActions, payload } = action;
-    const [SUCCESS, FAIL] = asyncActions;
+    const { payload } = action;
 
-    const { id } = payload as Pick<PostType, "id">;
+    const { id } = payload as PostDeleteType;
 
     return Posts.deleteById({ id })
         .then(({ data }) => {
-            dispatch(generic.actions.onSuccess({ type: SUCCESS, payload: data }));
+            dispatch(posts.deleteById.slice.actions.success(data));
+
+            const state = getState();
+            const allPosts = posts.getAll.slice.getPostsAll(state) as PostType[];
+            const filteredPosts = allPosts.filter(post => post.id !== id);
+            dispatch(posts.getAll.slice.actions.success(filteredPosts));
         })
         .catch((error) => {
-            throw dispatch(generic.actions.onFail({ type: FAIL, error: error.toString() }));
+            dispatch(posts.deleteById.slice.actions.fail(error));
         });
 };
