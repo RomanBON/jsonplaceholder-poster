@@ -49,12 +49,6 @@ export const AddPost: FC<AddPostProps> = ({ isShowing, onHide }) => {
         setUser(usersList[0]);
     }, [usersList.length]);
 
-    const handleChangeUser = (e: FormEvent<HTMLSelectElement>) => {
-        const { value } = e.target as HTMLSelectElement;
-        const foundedUser = usersList.find(user => user.id === parseInt(value, 10));
-        setUser(foundedUser);
-    };
-
     const handleSubmitForm = useCallback((e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
