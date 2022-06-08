@@ -1,6 +1,13 @@
-# Getting Started with Create React App
-
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## List of technologies used
+
+- React
+- Redux
+- Typescript
+- Eslint
+- Axios
+- styled-components
 
 ## Available Scripts
 

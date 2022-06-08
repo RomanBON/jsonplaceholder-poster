@@ -1,11 +1,13 @@
 import React, { FC, useCallback } from "react";
 
 import { useAppDispatch, useAppSelector } from "~/redux/hooks";
-import { posts } from "~/redux/modules";
+import { posts, users } from "~/redux/modules";
 
 import {
     StyledPost,
     StyledPostContent,
+    StyledPostHead,
+    StyledPostUserName,
     StyledPostNumber,
     StyledPostTitle,
     StyledPostButton,
@@ -13,7 +15,7 @@ import {
 
 export type PostProps = PostType;
 
-export const Post: FC<PostProps> = ({ id, title }) => {
+export const Post: FC<PostProps> = ({ id, title, userId }) => {
     const dispatch = useAppDispatch();
 
     const handleClick = useCallback(() => {
@@ -21,11 +23,17 @@ export const Post: FC<PostProps> = ({ id, title }) => {
     }, [id]);
 
     const isPending = useAppSelector(state => posts.deleteById.slice.isPending(state));
+    const user = useAppSelector(state => users.get.slice.getUserById(state, userId));
 
     return (
         <StyledPost>
             <StyledPostContent>
-                <StyledPostNumber>{id}</StyledPostNumber>
+                <StyledPostHead>
+                    <StyledPostNumber>{id}</StyledPostNumber>
+                    {user && (
+                        <StyledPostUserName>{user.name}</StyledPostUserName>
+                    )}
+                </StyledPostHead>
                 <StyledPostTitle>{title}</StyledPostTitle>
             </StyledPostContent>
 

@@ -12,7 +12,7 @@ export const StyledModalOverlay = styled.div`
     width: 100vw;
     height: 100vh;
     background-color: #000000;
-    opacity: .5;
+    opacity: 0.5;
 `;
 
 export const StyledModalWrapper = styled.div`

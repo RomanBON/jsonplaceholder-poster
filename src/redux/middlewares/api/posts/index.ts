@@ -17,11 +17,11 @@ export default (store: MiddlewareAPI, next: Dispatch, action: AnyAction) => {
         paramsPerPage = action.payload;
     }
 
-    const allPostsLength = posts.getAll.slice.allPostsLength(state);
+    const isEmptyPosts = posts.getAll.slice.isEmpty(state);
 
     switch (action.type) {
         case posts.get.slice.actions.request.type: {
-            if (allPostsLength === 0) {
+            if (isEmptyPosts) {
                 return getAllPostsMiddleware(store, next, action);
             } else {
                 return getPostsMiddleware(store, next, { ...action, ...{ paramsPerPage } });

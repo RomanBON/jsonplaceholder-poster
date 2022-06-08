@@ -30,6 +30,7 @@ export const actions = addPostSlice.actions;
 
 // Selectors
 export const isPending = (state: RootState) => state.posts.add.type === actions.request.type;
+export const isSuccess = (state: RootState) => state.posts.add.type === actions.success.type;
 
 // Reducer
 export default addPostSlice.reducer;

@@ -2,17 +2,17 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { RootState } from "~/redux/store";
 
-const initialState: StateType<PostType[]> = {
+const initialState: StateType<UserType[]> = {
     payload: [],
     error: false,
 };
 
-const postsAllSlice = createSlice({
-    name: "getAllPosts",
+const usersSlice = createSlice({
+    name: "getUsers",
     initialState,
     reducers: {
         request: () => {},
-        success: (state, action: PayloadAction<PostType[]>) => {
+        success: (state, action: PayloadAction<UserType[]>) => {
             state.payload = action.payload;
             state.type = action.type;
         },
@@ -24,11 +24,12 @@ const postsAllSlice = createSlice({
 });
 
 // Actions
-export const actions = postsAllSlice.actions;
+export const actions = usersSlice.actions;
 
 // Selectors
-export const getPostsAll = (state: RootState) => state.posts.getAll.payload;
-export const isEmpty = (state: RootState) => state.posts.getAll.payload.length === 0;
+export const getUsers = (state: RootState) => state.users.get.payload;
+export const getUserById = (state: RootState, userId: number) =>
+    state.users.get.payload.find((user) => user.id === userId);
 
 // Reducer
-export default postsAllSlice.reducer;
+export default usersSlice.reducer;

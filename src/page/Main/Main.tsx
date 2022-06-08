@@ -19,7 +19,7 @@ const NAME_OF_PAGE_NUMBER_PARAM = "page";
 
 export const Main: FC = () => {
     const dispatch = useAppDispatch();
-    const {isShowing, toggle} = useModal();
+    const { isShowing, toggle } = useModal();
     const [searchParams] = useSearchParams();
     const pageNumberParam =
         searchParams.get(NAME_OF_PAGE_NUMBER_PARAM) || DEFAULT_PAGE_NUMBER.toString();
@@ -27,12 +27,13 @@ export const Main: FC = () => {
 
     useEffect(() => {
         dispatch(posts.get.slice.actions.request({
-            number: pageNumber, limit: DEFAULT_PAGE_ITEM_LIMIT,
+            number: pageNumber,
+            limit: DEFAULT_PAGE_ITEM_LIMIT,
         }));
     }, [pageNumber]);
 
     const postsByPage = useAppSelector(state => posts.get.slice.getPosts(state)) as PostType[];
-    const allPostsLength = useAppSelector(state => posts.getAll.slice.allPostsLength(state));
+    const allPostsLength = useAppSelector(state => posts.getAll.slice.getPostsAll(state)).length;
 
     return (
         <StyledMain>

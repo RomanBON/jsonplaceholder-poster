@@ -1,9 +1,17 @@
 import styled from "styled-components";
 
+import { StyledButton } from "~/components/ui";
+
 export const StyledAddPostForm = styled.form`
     display: flex;
     flex-direction: column;
     width: 100%;
-    background-color: #c4c4c4;
-    border: #000000;
+`;
+
+export const StyledAddPostButton = styled(StyledButton)`
+    background: #2296f3;
+    
+    &:disabled {
+        opacity: 0.8;
+    }
 `;

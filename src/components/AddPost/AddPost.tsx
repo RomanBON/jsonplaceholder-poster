@@ -1,11 +1,18 @@
-import React, {FC, useState, useCallback, FormEvent, useEffect} from "react";
+import React, {
+    FC,
+    useState,
+    useCallback,
+    FormEvent,
+    useEffect,
+} from "react";
 
 import { useAppDispatch, useAppSelector } from "~/redux/hooks";
-import { posts } from "~/redux/modules";
-import { Modal, Button } from "~/components/ui";
+import { posts, users } from "~/redux/modules";
+import { Modal, Select, Input } from "~/components/ui";
 
 import {
     StyledAddPostForm,
+    StyledAddPostButton,
 } from "./styles";
 
 export type AddPostProps = {
@@ -16,24 +23,47 @@ export type AddPostProps = {
 export const AddPost: FC<AddPostProps> = ({ isShowing, onHide }) => {
     const dispatch = useAppDispatch();
     const [title, setTitle] = useState<string>("");
+    const [user, setUser] = useState<UserType>();
+
+    const isPendingAdding = useAppSelector(state => posts.add.slice.isPending(state));
+    const isSuccessAdding = useAppSelector(state => posts.add.slice.isSuccess(state));
+    const usersList = useAppSelector(state => users.get.slice.getUsers(state));
 
     useEffect(() => {
-        // dispatch(posts.get.slice.actions.request({
-        //     number: pageNumber, limit: DEFAULT_PAGE_ITEM_LIMIT,
-        // }));
+        dispatch(users.get.slice.actions.request());
     }, []);
 
-    const isPending = useAppSelector(state => posts.add.slice.isPending(state));
+    useEffect(() => {
+        if (isSuccessAdding) {
+            setTitle("");
+            setUser(usersList[0]);
+            onHide();
+        }
+    }, [isSuccessAdding]);
+
+    useEffect(() => {
+        if (usersList.length === 0) {
+            return;
+        }
+
+        setUser(usersList[0]);
+    }, [usersList.length]);
+
+    const handleChangeUser = (e: FormEvent<HTMLSelectElement>) => {
+        const { value } = e.target as HTMLSelectElement;
+        const foundedUser = usersList.find(user => user.id === parseInt(value, 10));
+        setUser(foundedUser);
+    };
 
     const handleSubmitForm = useCallback((e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (isPending) {
+        if (isPendingAdding) {
             return;
         }
 
-        dispatch(posts.add.slice.actions.request({ userId: 1, title }));
-    }, [title]);
+        dispatch(posts.add.slice.actions.request({ userId: user?.id, title }));
+    }, [title, user]);
 
     return (
         <Modal
@@ -42,19 +72,31 @@ export const AddPost: FC<AddPostProps> = ({ isShowing, onHide }) => {
             onHide={onHide}
         >
             <StyledAddPostForm onSubmit={handleSubmitForm}>
-                <select name="users" id="users">
-                    <option value="lol">lol</option>
-                </select>
+                {user && (
+                    <Select
+                        value={user}
+                        onChange={setUser}
+                        options={usersList}
+                        mapOptionToLabel={(user: UserType) => user.name}
+                        mapOptionToValue={(user: UserType) => user.id}
+                    />
+                )}
                 
-                <input
+                <Input
                     type="text"
                     name="title"
+                    placeholder="Title"
                     required
                     value={title}
                     onChange={e => setTitle(e.target.value)}
                 />
 
-                <Button type="submit">Done</Button>
+                <StyledAddPostButton
+                    type="submit"
+                    disabled={isPendingAdding}
+                >
+                    Done
+                </StyledAddPostButton>
             </StyledAddPostForm>
         </Modal>
     );

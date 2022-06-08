@@ -1,11 +1,13 @@
 import React from "react";
 import { createGlobalStyle } from "styled-components";
 
-import { Main } from "~/components";
+import { Main } from "~/page";
 
 const StyledApp = createGlobalStyle`
     * {
         font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 0;
     }
 `;
 

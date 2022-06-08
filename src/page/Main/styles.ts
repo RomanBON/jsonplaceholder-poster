@@ -3,13 +3,17 @@ import styled from "styled-components";
 import { StyledButton } from "~/components/ui";
 
 export const StyledMain = styled.div`
-    background-color: #f3f3f2;
+    margin: 0 auto;
+    padding: 16px;
+    max-width: 1024px;
+    background-color: #fbfbfb;
 `;
 
 export const StyledMainHead = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 16px;
 `;
 
 export const StyledMainHeading = styled.h1`

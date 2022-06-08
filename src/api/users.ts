@@ -1,7 +1,7 @@
 import client, { ClientResponseType } from "~/api/httpClient";
 
 const Users = {
-    getAll: (): ClientResponseType<UserType[]> =>
+    get: (): ClientResponseType<UserType[]> =>
         client.get("/users"),
 };
 

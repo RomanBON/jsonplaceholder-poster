@@ -12,11 +12,11 @@ export const StyledLink = styled(NavLink)<{ active: number }>`
     border-style: solid;
     
     ${props => (props.active ? `
-        color: #fff;
-        background-color: #007bff;
-        border-color: #007bff;
+        color: #ffffff;
+        background-color: #2296f3;
+        border-color: #2296f3;
     ` : `
-        color: #007bff;
+        color: #2296f3;
         background-color: #ffffff;
         border-color: #dee2e6;
     `)};

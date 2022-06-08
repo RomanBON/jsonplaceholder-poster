@@ -20,6 +20,6 @@ export default ({ getState, dispatch }: MiddlewareAPI, next: Dispatch, action: A
             dispatch(posts.getAll.slice.actions.success(filteredPosts));
         })
         .catch((error) => {
-            dispatch(posts.deleteById.slice.actions.fail(error));
+            throw dispatch(posts.deleteById.slice.actions.fail(error));
         });
 };
