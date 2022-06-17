@@ -1,12 +1,4 @@
-import { combineReducers } from "redux";
+import * as slice from "./slice";
+import reducer from "./slice";
 
-import * as get from "./get";
-
-const reducer = combineReducers({
-    get: get.reducer,
-});
-
-export default {
-    get,
-    reducer,
-};
+export { slice, reducer };

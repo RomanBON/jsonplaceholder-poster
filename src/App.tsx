@@ -1,7 +1,7 @@
 import React from "react";
 import { createGlobalStyle } from "styled-components";
 
-import { Main } from "~/page";
+import { Main } from "~/pages";
 
 const StyledApp = createGlobalStyle`
     * {

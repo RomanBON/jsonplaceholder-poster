@@ -1,5 +1,5 @@
-import posts from "./posts";
-import users from "./users";
+import * as posts from "./posts";
+import * as users from "./users";
 
 export {
     posts,

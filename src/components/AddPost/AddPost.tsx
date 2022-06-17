@@ -25,21 +25,21 @@ export const AddPost: FC<AddPostProps> = ({ isShowing, onHide }) => {
     const [title, setTitle] = useState<string>("");
     const [user, setUser] = useState<UserType>();
 
-    const isPendingAdding = useAppSelector(state => posts.add.slice.isPending(state));
-    const isSuccessAdding = useAppSelector(state => posts.add.slice.isSuccess(state));
-    const usersList = useAppSelector(state => users.get.slice.getUsers(state));
+    const isPendingAddPost = useAppSelector(posts.slice.isPendingAddPost());
+    const isSuccessAddPost = useAppSelector(posts.slice.isSuccessAddPost());
+    const usersList = useAppSelector(users.slice.getUsers());
 
     useEffect(() => {
-        dispatch(users.get.slice.actions.request());
+        dispatch(users.slice.get());
     }, []);
 
     useEffect(() => {
-        if (isSuccessAdding) {
+        if (isSuccessAddPost) {
             setTitle("");
             setUser(usersList[0]);
             onHide();
         }
-    }, [isSuccessAdding]);
+    }, [isSuccessAddPost]);
 
     useEffect(() => {
         if (usersList.length === 0) {
@@ -52,11 +52,13 @@ export const AddPost: FC<AddPostProps> = ({ isShowing, onHide }) => {
     const handleSubmitForm = useCallback((e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (isPendingAdding) {
+        if (isPendingAddPost) {
             return;
         }
 
-        dispatch(posts.add.slice.actions.request({ userId: user?.id, title }));
+        if (user?.id) {
+            dispatch(posts.slice.add({ userId: user.id, title }));
+        }
     }, [title, user]);
 
     return (
@@ -87,7 +89,7 @@ export const AddPost: FC<AddPostProps> = ({ isShowing, onHide }) => {
 
                 <StyledAddPostButton
                     type="submit"
-                    disabled={isPendingAdding}
+                    disabled={isPendingAddPost}
                 >
                     Done
                 </StyledAddPostButton>

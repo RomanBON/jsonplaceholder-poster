@@ -26,14 +26,14 @@ export const Main: FC = () => {
     const pageNumber = parseInt(pageNumberParam, 10) || DEFAULT_PAGE_NUMBER;
 
     useEffect(() => {
-        dispatch(posts.get.slice.actions.request({
-            number: pageNumber,
-            limit: DEFAULT_PAGE_ITEM_LIMIT,
-        }));
-    }, [pageNumber]);
+        dispatch(posts.slice.get());
+    }, []);
 
-    const postsByPage = useAppSelector(state => posts.get.slice.getPosts(state)) as PostType[];
-    const allPostsLength = useAppSelector(state => posts.getAll.slice.getPostsAll(state)).length;
+    const postsByPage = useAppSelector(
+        posts.slice.getPostsByPage({ number: pageNumber, limit: DEFAULT_PAGE_ITEM_LIMIT })
+    );
+
+    const allPostsLength = useAppSelector(state => posts.slice.getAllPosts(state)).length;
 
     return (
         <StyledMain>

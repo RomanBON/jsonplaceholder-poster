@@ -19,11 +19,11 @@ export const Post: FC<PostProps> = ({ id, title, userId }) => {
     const dispatch = useAppDispatch();
 
     const handleClick = useCallback(() => {
-        dispatch(posts.deleteById.slice.actions.request({ id }));
+        dispatch(posts.slice.deleteById({ id }));
     }, [id]);
 
-    const isPending = useAppSelector(state => posts.deleteById.slice.isPending(state));
-    const user = useAppSelector(state => users.get.slice.getUserById(state, userId));
+    const isPending = useAppSelector(posts.slice.isPendingDeletePost());
+    const user = useAppSelector(users.slice.getUserById(userId));
 
     return (
         <StyledPost>

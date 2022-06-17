@@ -1,11 +1,12 @@
 export {};
 
 declare global {
-    interface StateType<P> {
-        payload: P;
-        error: false;
+    type ErrorType = string | null;
 
-        type?: string;
+    interface GenericState<T> {
+        entities: T;
+        loading: string;
+        error: ErrorType;
     }
 
     interface PageType {
